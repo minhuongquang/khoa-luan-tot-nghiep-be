@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+  tham-quan:
+    image: tham-quan
+    hostname: tham-quan
+    environment:
+      - DISCOVERY_SERVICE_ADDRESS=http://eureka:8761/eureka
+      - MONGO_HOST=mongodb
+      - MONGO_PORT=27017
+      - ACTIVE_PROFILE=dev
+      - KAFKA_SERVERS=kafka:9092
+    volumes:
+      - /home/test/tham-quan/uploads:/uploads
+      - /home/test/tham-quan/downloads:/downloads
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 2
+        delay: 10s
+      endpoint_mode: dnsrr #dns round robbin
+    networks:
+      - app-net
+
+networks:
+  app-net:
+    external: true

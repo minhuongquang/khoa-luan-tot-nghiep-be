@@ -1,0 +1,78 @@
+spring:
+  application:
+    name: tham-quan
+  data:
+    mongodb:
+      uri: mongodb://${MONGO_HOST:localhost}:${MONGO_PORT:27017}/tham-quan-database
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 15MB
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${DISCOVERY_SERVICE_ADDRESS:http://localhost:8761/eureka}
+
+  instance:
+    hostname: tham-quan
+    prefer-ip-address: true
+
+jwt:
+  secret: bFmKkszKvHaFyFsT3OOA
+
+default:
+  password: 123456@$2021
+
+
+paging:
+  default:
+    page: 0
+    size: 20
+
+file:
+  download_dir: "./downloads"
+  upload_dir: "./uploads"
+
+google:
+  verifyUrl: https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=
+
+logging:
+  level:
+    org.springframework.cache: error
+  file:
+    name: logs/tham-quan.log
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  logback:
+    rollingpolicy:
+      clean-history-on-start: true
+      max-file-size: 100MB
+      max-history: 7
+
+
+kafka:
+  bootstrap-servers: ${KAFKA_SERVERS:stc:9094}
+  topic:
+    email-no-template: email-no-template
+    email-with-template: email-with-template
+    email-with-attachment: email-with-attachment
+
+feign:
+  hystrix:
+    enabled: true
+
+ribbon:
+  ConnectTimeout: 600000
+  ReadTimeout: 1200000
+  eager-load:
+    enabled: true
+    clients: service-bar
+
+server:
+  error:
+    include-message: always
+  port: 3489
